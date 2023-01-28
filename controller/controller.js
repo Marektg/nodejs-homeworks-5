@@ -14,7 +14,7 @@ const getAll = async (req, res, next) => {
 };
 
 const getOne = async (req, res, next) => {
-    const {contactId} = req.params;
+    const { contactId } = req.params;
     console.log(contactId);
     try {
         const contact = await service.getOneContact(contactId);
@@ -128,7 +128,7 @@ const patchFavorite = async (req, res, next) => {
     }
 };
 
-export default  {
+export default {
     getAll,
     getOne,
     post,

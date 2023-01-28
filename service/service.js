@@ -7,13 +7,13 @@ const getOneContact = async (contactId) => {
         if (contact) {
             return Contact.findById(contact._id);
         } else {
-            
+
             return Contact.findById(contactId);;
         }
     } catch (error) {
         console.log(error);
     }
-   
+
 
 };
 
@@ -43,21 +43,21 @@ const updateContact = async (contactId, body) => {
         const contact = contacts.find(({ id }) => id === contactId);
         if (contact) {
             return Contact.findByIdAndUpdate({ _id: contact._id, }, { $set: body },
-        {
-            new: true,
-            runValidators: true,
-            strict: "throw",
-        }
-    );
+                {
+                    new: true,
+                    runValidators: true,
+                    strict: "throw",
+                }
+            );
         } else {
 
-            return Contact.findByIdAndUpdate({ _id: contactId, },  { $set: body },
-        {
-            new: true,
-            runValidators: true,
-            strict: "throw",
-        }
-    );;
+            return Contact.findByIdAndUpdate({ _id: contactId, }, { $set: body },
+                {
+                    new: true,
+                    runValidators: true,
+                    strict: "throw",
+                }
+            );;
         }
     } catch (error) {
         console.log(error);
