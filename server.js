@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import router from "./api/api.js";
+import passport from "passport";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(passport)
 
 app.use("/api", router);
 
@@ -23,6 +25,15 @@ app.use((req, res) => {
     status: "error",
     code: 404,
     message: "Use api on routes: /api/contacts",
+    message: `Use api on routes: 
+    /api/users/signup - registration user { email, password},
+    /api/users/login - login {email, password},
+	/api/users/logout - logout,
+	/api/users/current - current user,
+	/api/users/ - to change subscription,
+    /api/contacts - to get all users or post user,
+	/api/contacts/:contactId - to get, delete or update user by ID,
+	/api/contacts/:contactId/favorite - to add or remove user from favorites`,
     data: "Not found",
   });
 });
@@ -44,5 +55,8 @@ app.listen(3000, () => {
     console.log("\nConnected to the database");
     console.log(new Date().toISOString());
     console.log("Listening on port 3000");
-  });
+  }).catch((err) => {
+    console.log(`Server not running. Error message: ${err.message}`);
+    process.exit(1);
+  });;
 });

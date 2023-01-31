@@ -1,8 +1,10 @@
 import * as service from "../service/service.js";
 
 const getAll = async (req, res, next) => {
+    const { id } = req.user;
+    const { page = 1, limit = 20, favorite } = req.query;
     try {
-        const contacts = await service.getAllContacts();
+        const contacts = await service.getAllContacts(id, page, limit, favorite);
         res.json({
             status: "success",
             code: 200,
@@ -15,10 +17,8 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
     const { contactId } = req.params;
-    console.log(contactId);
     try {
         const contact = await service.getOneContact(contactId);
-        console.log(contact);
         if (contact) {
             res.json({
                 status: "success",
@@ -38,8 +38,9 @@ const getOne = async (req, res, next) => {
 };
 
 const post = async (req, res, next) => {
+    const { id } = req.user;
     try {
-        const newContact = await service.createContact(req.body);
+        const newContact = await service.createContact(req.body, id);
         res.json({
             status: "success",
             code: 201,
