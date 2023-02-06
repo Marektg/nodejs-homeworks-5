@@ -4,10 +4,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import router from "./api/api.js";
-import passport from "passport";
 
 dotenv.config();
-
 
 const app = express();
 
@@ -17,9 +15,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
-
 app.use("/api", router);
-
 app.use((req, res) => {
   res.status(404).json({
     status: "error",
@@ -37,7 +33,6 @@ app.use((req, res) => {
     data: "Not found",
   });
 });
-
 app.use((err, req, res, next) => {
   res.status(500).json({
     status: "fail",
