@@ -105,7 +105,6 @@ const updateSubscription = async (id, body) =>
 const updateAvatar = (id, avatarURL) =>
     User.findByIdAndUpdate(id, { avatarURL });
 
-
 export {
     getAllContacts,
     getOneContact,

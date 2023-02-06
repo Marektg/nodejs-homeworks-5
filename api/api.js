@@ -1,5 +1,4 @@
 import express from "express";
-
 import contactController from "../controller/contactController.js";
 import userController from "../controller/userController.js";
 import { createContact, updatingContact, updateStatusContact, findUserByEmail, patchSubscription } from "../utilites/validation.js";
@@ -11,14 +10,12 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => cb(null, file.originalname),
     limits: { fileSize: 1048576 },
 });
-
 const mimeTypeAllowedList = [
     "image/png",
     "image/jpg",
     "image/jpeg",
     "image/gif",
 ];
-
 const multerInstance = multer({
     storage,
     fileFilter: (req, file, cb) => {
@@ -32,19 +29,13 @@ const multerInstance = multer({
 
 const contactsRouter = express.Router()
 contactsRouter.get("/", authMid, contactController.getAll);
-
 contactsRouter.get("/:contactId", contactController.getOne);
-
 contactsRouter.post("/", authMid, createContact, contactController.post);
-
 contactsRouter.delete("/:contactId", contactController.deleteContact);
-
 contactsRouter.put("/:contactId", updatingContact, contactController.put);
-
 contactsRouter.patch("/:contactId/favorite", updateStatusContact, contactController.patchFavorite);
 
 const userRouter = express.Router();
-
 userRouter.post("/signup", findUserByEmail, userController.register);
 userRouter.post("/login", findUserByEmail, userController.login);
 userRouter.get("/logout", authMid, userController.logout);
@@ -55,7 +46,6 @@ userRouter.patch(
     userController.patchSubscription,
     patchSubscription
 );
-
 userRouter.patch(
     "/avatars",
     authMid,

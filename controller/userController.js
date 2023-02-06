@@ -1,5 +1,5 @@
 import * as service from "../service/service.js";
-import  jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Jimp from "jimp";
 import fs from "fs";
