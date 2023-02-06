@@ -1,6 +1,8 @@
 import * as service from "../service/service.js";
 import  jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
+import Jimp from "jimp";
+
 dotenv.config();
 
 const secret = process.env.SECRET;
