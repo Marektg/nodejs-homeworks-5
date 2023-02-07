@@ -1,6 +1,9 @@
 import * as service from "../service/service.js";
-import  jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import Jimp from "jimp";
+import fs from "fs";
+
 dotenv.config();
 
 const secret = process.env.SECRET;
@@ -110,10 +113,42 @@ const patchSubscription = async (req, res, next) => {
     }
 };
 
+const patchAvatar = async (req, res, next) => {
+    const { id } = req.user;
+    const avatarURL = `/avatars/av_${id}.png`;
+    if (!req.file) {
+        return res.status(400).json({ message: "This is not the photo" });
+    }
+    Jimp.read(`tmp/${req.file.filename}`)
+        .then((avatar) => {
+            return avatar.resize(250, 250).write(`public/avatars/av_${id}.png`);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    await service.updateAvatar(id, avatarURL);
+    try {
+        fs.unlink(req.file.path, () => {
+            console.log("removed from tmp");
+        });
+        res.status(200).json({
+            status: "success",
+            code: 200,
+            message: "OK",
+            data: {
+                avatarURL,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export default {
     register,
     login,
     logout,
     getCurrent,
     patchSubscription,
+    patchAvatar
 };

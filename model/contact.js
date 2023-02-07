@@ -28,7 +28,4 @@ const contact = new Schema(
 
 const Contact = model("contact", contact);
 
-
-
-
 export default Contact;

@@ -1,5 +1,6 @@
 import Contact from "../model/contact.js";
 import User from "../model/user.js";
+import gravtar from "gravatar";
 const getAllContacts = async (id, page, limit, favorite) => {
     if (favorite === undefined) {
         return await Contact.find({ owner: id })
@@ -80,7 +81,8 @@ const findUserByEmail = async (email) => await User.findOne({ email });
 
 const createNewUser = async (body) => {
     const { email, password } = body;
-    const newUser = new User({ email });
+    const avatarURL = gravatar.url(email);
+    const newUser = new User({ email, avatarURL });
     await newUser.setPassword(password);
     await newUser.save();
     return newUser;
@@ -100,8 +102,8 @@ const userLogout = async (id) =>
 const updateSubscription = async (id, body) =>
     User.findByIdAndUpdate(id, { subscription: body }, { new: true });
 
-
-
+const updateAvatar = (id, avatarURL) =>
+    User.findByIdAndUpdate(id, { avatarURL });
 
 export {
     getAllContacts,
@@ -115,4 +117,5 @@ export {
     addToken,
     userLogout,
     updateSubscription,
+    updateAvatar
 };
