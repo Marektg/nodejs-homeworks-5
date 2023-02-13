@@ -62,11 +62,24 @@ const schemafindUserByEmail = Joi.object({
 const schemaPatchSubscription = Joi.object({
     subscription: Joi.string().valid("starter", "pro", "business").required(),
 });
+
+const schemaVerifyEmail = Joi.object({
+    email: Joi.string()
+        .email({
+            minDomainSegments: 2,
+            tlds: { allow: ["com", "net", "pl"] },
+        })
+        .required(),
+});
+
 function findUserByEmail(req, res, next) {
     return validate(schemafindUserByEmail, req.body, next, res);
 };
 function patchSubscription(req, res, next) {
     return validate(schemaPatchSubscription, req.body, next, res);
 };
+function verifyEmail(req, res, next) {
+    return validate(schemaVerifyEmail, req.body, next, res);
+};
 
-export { createContact, updatingContact, updateStatusContact, findUserByEmail, patchSubscription };
+export { createContact, updatingContact, updateStatusContact, findUserByEmail, patchSubscription, verifyEmail };
