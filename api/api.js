@@ -1,7 +1,7 @@
 import express from "express";
 import contactController from "../controller/contactController.js";
 import userController from "../controller/userController.js";
-import { createContact, updatingContact, updateStatusContact, findUserByEmail, patchSubscription } from "../utilites/validation.js";
+import { createContact, updatingContact, updateStatusContact, findUserByEmail, patchSubscription, verifyEmail } from "../utilites/validation.js";
 import authMid from "../utilites/authMid.js";
 import multer from "multer";
 
@@ -51,6 +51,12 @@ userRouter.patch(
     authMid,
     multerInstance.single("avatar"),
     userController.patchAvatar
+);
+userRouter.get("/verify/:verificationToken", userController.verifyEmail);
+userRouter.post(
+    "/verify",
+    verifyEmail,
+    userController.resendVerificationEmail
 );
 
 const router = express.Router();
