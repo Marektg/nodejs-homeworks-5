@@ -1,7 +1,8 @@
 import Contact from "../model/contact.js";
 import User from "../model/user.js";
 import gravtar from "gravatar";
-import { uuid } from "uuidv4"
+import { uuid } from "uuidv4";
+import sendEmail from "../utilites/sendgrid.js";
 const getAllContacts = async (id, page, limit, favorite) => {
     if (favorite === undefined) {
         return await Contact.find({ owner: id })

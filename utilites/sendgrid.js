@@ -52,4 +52,4 @@ const sendEmail = (email, verificationToken) => {
         });
 };
 
-export default sendEmail ;
+export default sendEmail;
